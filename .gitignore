@@ -1,0 +1,5 @@
+bin/
+lib/
+bison/
+.vscode/
+.valgrind-out.txt

@@ -1,0 +1,5 @@
+activity_feast = {
+    every_in_list = {
+        list = potential_guests
+    }
+}

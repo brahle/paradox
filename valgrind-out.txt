@@ -1,0 +1,137 @@
+==22725== Memcheck, a memory error detector
+==22725== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==22725== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==22725== Command: bin/main tests/samples/simple.txt
+==22725== Parent PID: 12523
+==22725== 
+--22725-- 
+--22725-- Valgrind options:
+--22725--    --leak-check=full
+--22725--    --show-leak-kinds=all
+--22725--    --track-origins=yes
+--22725--    --verbose
+--22725--    --log-file=valgrind-out.txt
+--22725-- Contents of /proc/version:
+--22725--   Linux version 4.4.0-18362-Microsoft (Microsoft@Microsoft.com) (gcc version 5.4.0 (GCC) ) #1049-Microsoft Thu Aug 14 12:01:00 PST 2020
+--22725-- 
+--22725-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-avx-avx2-bmi
+--22725-- Page sizes: currently 4096, max supported 4096
+--22725-- Valgrind library directory: /usr/lib/valgrind
+--22725-- Reading syms from /mnt/d/OneDrive/dev/paradox/bin/main
+--22725-- Reading syms from /lib/x86_64-linux-gnu/ld-2.23.so
+--22725--   Considering /lib/x86_64-linux-gnu/ld-2.23.so ..
+--22725--   .. CRC mismatch (computed 2b0241bb wanted 2b26b6ff)
+--22725--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.23.so ..
+--22725--   .. CRC is valid
+--22725-- Reading syms from /usr/lib/valgrind/memcheck-amd64-linux
+--22725--   Considering /usr/lib/valgrind/memcheck-amd64-linux ..
+--22725--   .. CRC mismatch (computed eea41ea9 wanted 2009db78)
+--22725--    object doesn't have a symbol table
+--22725--    object doesn't have a dynamic symbol table
+--22725-- Scheduler: using generic scheduler lock implementation.
+--22725-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==22725== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-22725-by-brahle-on-???
+==22725== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-22725-by-brahle-on-???
+==22725== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-22725-by-brahle-on-???
+==22725== 
+==22725== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==22725== don't want to do, unless you know exactly what you're doing,
+==22725== or are doing some strange experiment):
+==22725==   /usr/lib/valgrind/../../bin/vgdb --pid=22725 ...command...
+==22725== 
+==22725== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==22725==   /path/to/gdb bin/main
+==22725== and then give GDB the following command
+==22725==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=22725
+==22725== --pid is optional if only one valgrind process is running
+==22725== 
+==22725== error calling PR_SET_PTRACER, vgdb might block
+--22725-- REDIR: 0x401cf40 (ld-linux-x86-64.so.2:strlen) redirected to 0x3809e181 (???)
+--22725-- Reading syms from /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+--22725--   Considering /usr/lib/valgrind/vgpreload_core-amd64-linux.so ..
+--22725--   .. CRC mismatch (computed 2567ccf6 wanted 49420590)
+--22725--    object doesn't have a symbol table
+--22725-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+--22725--   Considering /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so ..
+--22725--   .. CRC mismatch (computed 0e27c9a8 wanted ac585421)
+--22725--    object doesn't have a symbol table
+==22725== WARNING: new redirection conflicts with existing -- ignoring it
+--22725--     old: 0x0401cf40 (strlen              ) R-> (0000.0) 0x3809e181 ???
+--22725--     new: 0x0401cf40 (strlen              ) R-> (2007.0) 0x04c31020 strlen
+--22725-- REDIR: 0x401b890 (ld-linux-x86-64.so.2:index) redirected to 0x4c30bc0 (index)
+--22725-- REDIR: 0x401bab0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c320d0 (strcmp)
+--22725-- REDIR: 0x401dca0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c35270 (mempcpy)
+--22725-- Reading syms from /usr/local/lib/libantlr4-runtime.so.4.8
+--22725-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21
+--22725--   Considering /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21 ..
+--22725--   .. CRC mismatch (computed b2e7dc97 wanted c9833bdf)
+--22725--    object doesn't have a symbol table
+--22725-- Reading syms from /lib/x86_64-linux-gnu/libgcc_s.so.1
+--22725--   Considering /lib/x86_64-linux-gnu/libgcc_s.so.1 ..
+--22725--   .. CRC mismatch (computed b9a68419 wanted 29d51b00)
+--22725--    object doesn't have a symbol table
+--22725-- Reading syms from /lib/x86_64-linux-gnu/libc-2.23.so
+--22725--   Considering /lib/x86_64-linux-gnu/libc-2.23.so ..
+--22725--   .. CRC mismatch (computed 53ae885f wanted a963d847)
+--22725--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.23.so ..
+--22725--   .. CRC is valid
+--22725-- Reading syms from /lib/x86_64-linux-gnu/libm-2.23.so
+--22725--   Considering /lib/x86_64-linux-gnu/libm-2.23.so ..
+--22725--   .. CRC mismatch (computed 139cd6a9 wanted 1d3df7e7)
+--22725--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libm-2.23.so ..
+--22725--   .. CRC is valid
+--22725-- REDIR: 0x5796a80 (libc.so.6:strcasecmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5792300 (libc.so.6:strcspn) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5798d70 (libc.so.6:strncasecmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5794770 (libc.so.6:strpbrk) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5794b00 (libc.so.6:strspn) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x57961cb (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5794480 (libc.so.6:rindex) redirected to 0x4c308a0 (rindex)
+--22725-- REDIR: 0x578b180 (libc.so.6:malloc) redirected to 0x4c2db20 (malloc)
+--22725-- REDIR: 0x57927a0 (libc.so.6:strlen) redirected to 0x4c30f60 (strlen)
+--22725-- REDIR: 0x5795c70 (libc.so.6:__GI_memcmp) redirected to 0x4c33b90 (__GI_memcmp)
+--22725-- REDIR: 0x5790d50 (libc.so.6:strcmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x57a65f0 (libc.so.6:__strcmp_sse2_unaligned) redirected to 0x4c31f90 (strcmp)
+--22725-- REDIR: 0x51fce60 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x4c2e080 (operator new(unsigned long))
+--22725-- REDIR: 0x578bd80 (libc.so.6:calloc) redirected to 0x4c2faa0 (calloc)
+--22725-- REDIR: 0x579b470 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5854f60 (libc.so.6:__memcpy_avx_unaligned) redirected to 0x4c324a0 (memcpy@@GLIBC_2.14)
+--22725-- REDIR: 0x51faf10 (libstdc++.so.6:operator delete(void*)) redirected to 0x4c2f1e0 (operator delete(void*))
+--22725-- REDIR: 0x5796230 (libc.so.6:memset) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x5879a30 (libc.so.6:__memset_avx2) redirected to 0x4c344c0 (memset)
+--22725-- REDIR: 0x5854a70 (libc.so.6:__memmove_avx_unaligned) redirected to 0x4c32230 (memcpy@GLIBC_2.2.5)
+--22725-- REDIR: 0x5795c30 (libc.so.6:bcmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--22725-- REDIR: 0x58754f0 (libc.so.6:__memcmp_sse4_1) redirected to 0x4c33cd0 (__memcmp_sse4_1)
+--22725-- REDIR: 0x5796430 (libc.so.6:__GI_mempcpy) redirected to 0x4c34fa0 (__GI_mempcpy)
+--22725-- REDIR: 0x57950e0 (libc.so.6:__GI_strstr) redirected to 0x4c354d0 (__strstr_sse2)
+--22725-- REDIR: 0x51fcf10 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c2e7a0 (operator new[](unsigned long))
+--22725-- REDIR: 0x51faf40 (libstdc++.so.6:operator delete[](void*)) redirected to 0x4c2f6e0 (operator delete[](void*))
+--22725-- REDIR: 0x578b540 (libc.so.6:free) redirected to 0x4c2ed80 (free)
+==22725== 
+==22725== HEAP SUMMARY:
+==22725==     in use at exit: 72,704 bytes in 1 blocks
+==22725==   total heap usage: 2,562 allocs, 2,561 frees, 269,131 bytes allocated
+==22725== 
+==22725== Searching for pointers to 1 not-freed blocks
+==22725== Checked 124,768 bytes
+==22725== 
+==22725== 72,704 bytes in 1 blocks are still reachable in loss record 1 of 1
+==22725==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22725==    by 0x51F8EFF: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+==22725==    by 0x40106F9: call_init.part.0 (dl-init.c:72)
+==22725==    by 0x401080A: call_init (dl-init.c:30)
+==22725==    by 0x401080A: _dl_init (dl-init.c:120)
+==22725==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==22725==    by 0x1: ???
+==22725==    by 0xFFEFFFCBA: ???
+==22725==    by 0xFFEFFFCC3: ???
+==22725== 
+==22725== LEAK SUMMARY:
+==22725==    definitely lost: 0 bytes in 0 blocks
+==22725==    indirectly lost: 0 bytes in 0 blocks
+==22725==      possibly lost: 0 bytes in 0 blocks
+==22725==    still reachable: 72,704 bytes in 1 blocks
+==22725==         suppressed: 0 bytes in 0 blocks
+==22725== 
+==22725== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==22725== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
