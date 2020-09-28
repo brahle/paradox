@@ -19,10 +19,10 @@ public:
   };
 
   enum {
-    RuleConfig = 0, RuleAssignment = 1, RuleField = 2, RuleValue = 3, RuleSimpleValue = 4, 
-    RuleSymbol = 5, RuleString = 6, RuleInteger = 7, RuleReal = 8, RuleDate = 9, 
-    RulePercent = 10, RuleMap = 11, RuleArray = 12, RuleVariable = 13, RuleVariable_expression = 14, 
-    RuleExpression = 15, RuleList = 16
+    RuleConfig = 0, RuleAssignment = 1, RuleField = 2, RuleValue = 3, RuleSymbol = 4, 
+    RuleString = 5, RuleInteger = 6, RuleReal = 7, RuleDate = 8, RulePercent = 9, 
+    RuleMap = 10, RuleArray = 11, RuleVariable = 12, RuleVariable_expression = 13, 
+    RuleExpression = 14, RuleList = 15
   };
 
   ParadoxFileParser(antlr4::TokenStream *input);
@@ -39,7 +39,6 @@ public:
   class AssignmentContext;
   class FieldContext;
   class ValueContext;
-  class SimpleValueContext;
   class SymbolContext;
   class StringContext;
   class IntegerContext;
@@ -128,28 +127,6 @@ public:
   };
 
   ValueContext* value();
-
-  class  SimpleValueContext : public antlr4::ParserRuleContext {
-  public:
-    SimpleValueContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    IntegerContext *integer();
-    PercentContext *percent();
-    RealContext *real();
-    DateContext *date();
-    StringContext *string();
-    SymbolContext *symbol();
-    VariableContext *variable();
-    Variable_expressionContext *variable_expression();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  SimpleValueContext* simpleValue();
 
   class  SymbolContext : public antlr4::ParserRuleContext {
   public:
@@ -267,8 +244,8 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *BLOCK_START();
     antlr4::tree::TerminalNode *BLOCK_END();
-    std::vector<SimpleValueContext *> simpleValue();
-    SimpleValueContext* simpleValue(size_t i);
+    std::vector<ValueContext *> value();
+    ValueContext* value(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

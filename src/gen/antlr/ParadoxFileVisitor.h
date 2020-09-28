@@ -27,8 +27,6 @@ public:
 
     virtual antlrcpp::Any visitValue(ParadoxFileParser::ValueContext *context) = 0;
 
-    virtual antlrcpp::Any visitSimpleValue(ParadoxFileParser::SimpleValueContext *context) = 0;
-
     virtual antlrcpp::Any visitSymbol(ParadoxFileParser::SymbolContext *context) = 0;
 
     virtual antlrcpp::Any visitString(ParadoxFileParser::StringContext *context) = 0;

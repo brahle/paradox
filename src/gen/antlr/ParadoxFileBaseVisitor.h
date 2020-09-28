@@ -31,10 +31,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitSimpleValue(ParadoxFileParser::SimpleValueContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitSymbol(ParadoxFileParser::SymbolContext *ctx) override {
     return visitChildren(ctx);
   }

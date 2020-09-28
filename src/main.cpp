@@ -130,6 +130,12 @@ private:
             if (field->LIST_START()) {
                 return field->LIST_START()->getSymbol()->getText();
             }
+            if (field->string()) {
+                auto string = field->string();
+                if (string->STRING()) {
+                    return string->STRING()->getSymbol()->getText();
+                }
+            }
         }
         throw new std::runtime_error("Unable to figure out the assignments name");
     }
@@ -146,15 +152,15 @@ int main(int argc, const char* argv[]) {
     ParadoxFileParser parser(&tokens);
 
     antlr4::tree::ParseTree *tree = parser.config();
-    std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+    // std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
 
     AssignmentListener listener;
     antlr4::tree::ParseTreeWalker::DEFAULT.walk(&listener, tree);
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
-    for (auto x : listener.assignments().children()) {
-        std::cout << x.name() << std::endl;
-    }
+    // for (auto x : listener.assignments().children()) {
+    //     std::cout << x.name() << std::endl;
+    // }
 
     return 0;
 }

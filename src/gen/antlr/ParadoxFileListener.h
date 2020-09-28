@@ -26,9 +26,6 @@ public:
   virtual void enterValue(ParadoxFileParser::ValueContext *ctx) = 0;
   virtual void exitValue(ParadoxFileParser::ValueContext *ctx) = 0;
 
-  virtual void enterSimpleValue(ParadoxFileParser::SimpleValueContext *ctx) = 0;
-  virtual void exitSimpleValue(ParadoxFileParser::SimpleValueContext *ctx) = 0;
-
   virtual void enterSymbol(ParadoxFileParser::SymbolContext *ctx) = 0;
   virtual void exitSymbol(ParadoxFileParser::SymbolContext *ctx) = 0;
 
