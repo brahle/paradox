@@ -74,29 +74,34 @@ private:
 
 class AssignmentListener : public ParadoxFileBaseListener {
 public:
-    AssignmentListener() {}
+    AssignmentListener(bool quiet = true): quiet_(quiet) {}
 
     virtual void enterAssignment(ParadoxFileParser::AssignmentContext *ctx) override {
-        current->children().emplace_back(_get_assignment_name(ctx), current);
-        current = &(current->children().back());
-        std::cout << indent << "Entering " << current->name() << std::endl;
-        indent = indent + "  ";
+        current_->children().emplace_back(_get_assignment_name(ctx), current_);
+        current_ = &(current_->children().back());
+        if (!quiet_) {
+            std::cout << indent_ << "Entering " << current_->name() << std::endl;
+            indent_ = indent_ + "  ";
+        }
     }
 
     virtual void exitAssignment(ParadoxFileParser::AssignmentContext *ctx) override {
-        indent = indent.substr(0, indent.length() - 2);
-        std::cout << indent << "Exiting " << current->name() << std::endl;
-        current = current->parent();
+        if (!quiet_) {
+            indent_ = indent_.substr(0, indent_.length() - 2);
+            std::cout << indent_ << "Exiting " << current_->name() << std::endl;
+        }
+        current_ = current_->parent();
     }
 
     const AssignmentNode& assignments() const {
-        return root;
+        return root_;
     }
 
 private:
-    AssignmentNode root;
-    AssignmentNode *current = &root;
-    std::string indent = "";
+    AssignmentNode root_;
+    AssignmentNode *current_ = &root_;
+    std::string indent_ = "";
+    const bool quiet_;
 
     std::string _get_assignment_name(ParadoxFileParser::AssignmentContext *ctx) {
         if (!ctx) {
