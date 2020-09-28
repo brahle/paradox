@@ -50,6 +50,18 @@ public:
   virtual void enterArray(ParadoxFileParser::ArrayContext *ctx) = 0;
   virtual void exitArray(ParadoxFileParser::ArrayContext *ctx) = 0;
 
+  virtual void enterVariable(ParadoxFileParser::VariableContext *ctx) = 0;
+  virtual void exitVariable(ParadoxFileParser::VariableContext *ctx) = 0;
+
+  virtual void enterVariable_expression(ParadoxFileParser::Variable_expressionContext *ctx) = 0;
+  virtual void exitVariable_expression(ParadoxFileParser::Variable_expressionContext *ctx) = 0;
+
+  virtual void enterExpression(ParadoxFileParser::ExpressionContext *ctx) = 0;
+  virtual void exitExpression(ParadoxFileParser::ExpressionContext *ctx) = 0;
+
+  virtual void enterList(ParadoxFileParser::ListContext *ctx) = 0;
+  virtual void exitList(ParadoxFileParser::ListContext *ctx) = 0;
+
 
 };
 

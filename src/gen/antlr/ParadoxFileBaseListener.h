@@ -52,6 +52,18 @@ public:
   virtual void enterArray(ParadoxFileParser::ArrayContext * /*ctx*/) override { }
   virtual void exitArray(ParadoxFileParser::ArrayContext * /*ctx*/) override { }
 
+  virtual void enterVariable(ParadoxFileParser::VariableContext * /*ctx*/) override { }
+  virtual void exitVariable(ParadoxFileParser::VariableContext * /*ctx*/) override { }
+
+  virtual void enterVariable_expression(ParadoxFileParser::Variable_expressionContext * /*ctx*/) override { }
+  virtual void exitVariable_expression(ParadoxFileParser::Variable_expressionContext * /*ctx*/) override { }
+
+  virtual void enterExpression(ParadoxFileParser::ExpressionContext * /*ctx*/) override { }
+  virtual void exitExpression(ParadoxFileParser::ExpressionContext * /*ctx*/) override { }
+
+  virtual void enterList(ParadoxFileParser::ListContext * /*ctx*/) override { }
+  virtual void exitList(ParadoxFileParser::ListContext * /*ctx*/) override { }
+
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
   virtual void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

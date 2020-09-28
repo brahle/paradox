@@ -43,6 +43,14 @@ public:
 
     virtual antlrcpp::Any visitArray(ParadoxFileParser::ArrayContext *context) = 0;
 
+    virtual antlrcpp::Any visitVariable(ParadoxFileParser::VariableContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariable_expression(ParadoxFileParser::Variable_expressionContext *context) = 0;
+
+    virtual antlrcpp::Any visitExpression(ParadoxFileParser::ExpressionContext *context) = 0;
+
+    virtual antlrcpp::Any visitList(ParadoxFileParser::ListContext *context) = 0;
+
 
 };
 

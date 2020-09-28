@@ -63,6 +63,22 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVariable(ParadoxFileParser::VariableContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVariable_expression(ParadoxFileParser::Variable_expressionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitExpression(ParadoxFileParser::ExpressionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitList(ParadoxFileParser::ListContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
 
 };
 

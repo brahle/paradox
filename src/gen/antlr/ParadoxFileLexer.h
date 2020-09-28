@@ -12,8 +12,10 @@
 class  ParadoxFileLexer : public antlr4::Lexer {
 public:
   enum {
-    OPERATOR = 1, BLOCK_START = 2, BLOCK_END = 3, INT = 4, PCT = 5, REAL = 6, 
-    DATE = 7, STRING = 8, SYMBOL = 9, WHITESPACE = 10, LINE_COMMENT = 11
+    OPERATOR = 1, BLOCK_START = 2, BLOCK_END = 3, VARIABLE_START = 4, VARIABLE_EXPRESSION_START = 5, 
+    VARIABLE_EXPRESSION_END = 6, EXPRESSION_OPERATOR = 7, LIST_START = 8, 
+    INT = 9, PCT = 10, REAL = 11, DATE = 12, STRING = 13, SYMBOL = 14, WHITESPACE = 15, 
+    LINE_COMMENT = 16
   };
 
   ParadoxFileLexer(antlr4::CharStream *input);

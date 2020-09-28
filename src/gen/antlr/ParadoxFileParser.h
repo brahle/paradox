@@ -12,14 +12,17 @@
 class  ParadoxFileParser : public antlr4::Parser {
 public:
   enum {
-    OPERATOR = 1, BLOCK_START = 2, BLOCK_END = 3, INT = 4, PCT = 5, REAL = 6, 
-    DATE = 7, STRING = 8, SYMBOL = 9, WHITESPACE = 10, LINE_COMMENT = 11
+    OPERATOR = 1, BLOCK_START = 2, BLOCK_END = 3, VARIABLE_START = 4, VARIABLE_EXPRESSION_START = 5, 
+    VARIABLE_EXPRESSION_END = 6, EXPRESSION_OPERATOR = 7, LIST_START = 8, 
+    INT = 9, PCT = 10, REAL = 11, DATE = 12, STRING = 13, SYMBOL = 14, WHITESPACE = 15, 
+    LINE_COMMENT = 16
   };
 
   enum {
     RuleConfig = 0, RuleAssignment = 1, RuleField = 2, RuleValue = 3, RuleSymbol = 4, 
     RuleString = 5, RuleInteger = 6, RuleReal = 7, RuleDate = 8, RulePercent = 9, 
-    RuleMap = 10, RuleArray = 11
+    RuleMap = 10, RuleArray = 11, RuleVariable = 12, RuleVariable_expression = 13, 
+    RuleExpression = 14, RuleList = 15
   };
 
   ParadoxFileParser(antlr4::TokenStream *input);
@@ -43,7 +46,11 @@ public:
   class DateContext;
   class PercentContext;
   class MapContext;
-  class ArrayContext; 
+  class ArrayContext;
+  class VariableContext;
+  class Variable_expressionContext;
+  class ExpressionContext;
+  class ListContext; 
 
   class  ConfigContext : public antlr4::ParserRuleContext {
   public:
@@ -84,6 +91,7 @@ public:
     virtual size_t getRuleIndex() const override;
     StringContext *string();
     SymbolContext *symbol();
+    VariableContext *variable();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -106,6 +114,9 @@ public:
     SymbolContext *symbol();
     MapContext *map();
     ArrayContext *array();
+    VariableContext *variable();
+    Variable_expressionContext *variable_expression();
+    ListContext *list();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -243,6 +254,74 @@ public:
   };
 
   ArrayContext* array();
+
+  class  VariableContext : public antlr4::ParserRuleContext {
+  public:
+    VariableContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *VARIABLE_START();
+    antlr4::tree::TerminalNode *SYMBOL();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VariableContext* variable();
+
+  class  Variable_expressionContext : public antlr4::ParserRuleContext {
+  public:
+    Variable_expressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *VARIABLE_START();
+    antlr4::tree::TerminalNode *VARIABLE_EXPRESSION_START();
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *VARIABLE_EXPRESSION_END();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Variable_expressionContext* variable_expression();
+
+  class  ExpressionContext : public antlr4::ParserRuleContext {
+  public:
+    ExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ValueContext *value();
+    antlr4::tree::TerminalNode *EXPRESSION_OPERATOR();
+    ExpressionContext *expression();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ExpressionContext* expression();
+
+  class  ListContext : public antlr4::ParserRuleContext {
+  public:
+    ListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *LIST_START();
+    antlr4::tree::TerminalNode *SYMBOL();
+    antlr4::tree::TerminalNode *STRING();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ListContext* list();
 
 
 private:

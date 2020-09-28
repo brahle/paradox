@@ -79,9 +79,13 @@ public:
     virtual void enterAssignment(ParadoxFileParser::AssignmentContext *ctx) override {
         current->children().emplace_back(_get_assignment_name(ctx), current);
         current = &(current->children().back());
+        std::cout << indent << "Entering " << current->name() << std::endl;
+        indent = indent + "  ";
     }
 
     virtual void exitAssignment(ParadoxFileParser::AssignmentContext *ctx) override {
+        indent = indent.substr(0, indent.length() - 2);
+        std::cout << indent << "Exiting " << current->name() << std::endl;
         current = current->parent();
     }
 
@@ -92,6 +96,7 @@ public:
 private:
     AssignmentNode root;
     AssignmentNode *current = &root;
+    std::string indent = "";
 
     std::string _get_assignment_name(ParadoxFileParser::AssignmentContext *ctx) {
         if (!ctx) {
@@ -111,6 +116,12 @@ private:
                     return symbol->SYMBOL()->getSymbol()->getText();
                 }
             }
+            if (field->variable()) {
+                auto variable = field->variable();
+                if (variable->SYMBOL()) {
+                    return variable->SYMBOL()->getSymbol()->getText();
+                }
+            }
         }
         throw new std::runtime_error("Unable to figure out the assignments name");
     }
@@ -127,13 +138,15 @@ int main(int argc, const char* argv[]) {
     ParadoxFileParser parser(&tokens);
 
     antlr4::tree::ParseTree *tree = parser.config();
+    std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
 
     AssignmentListener listener;
     antlr4::tree::ParseTreeWalker::DEFAULT.walk(&listener, tree);
+    std::cout << std::endl;
+
     for (auto x : listener.assignments().children()) {
         std::cout << x.name() << std::endl;
     }
 
-    std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
     return 0;
 }
