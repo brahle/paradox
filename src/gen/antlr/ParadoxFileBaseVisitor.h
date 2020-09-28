@@ -79,6 +79,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitConstructor(ParadoxFileParser::ConstructorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
 
 };
 

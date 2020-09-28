@@ -5,10 +5,10 @@ config: (assignment)*;
 assignment: field OPERATOR value;
 field: string | symbol | variable | LIST_START;
 
-value: integer | percent | real | date | string | symbol | variable | variable_expression | map | array | list;
+value: integer | percent | real | date | string | symbol | variable | variable_expression | map | array | list | constructor;
 
-symbol: STRING | INT | SYMBOL;
-string: STRING;
+symbol: string | INT | SYMBOL;
+string: DSTRING | SSTRING;
 integer: INT;
 real: REAL;
 date: DATE;
@@ -18,7 +18,8 @@ array: BLOCK_START (value)+ BLOCK_END;
 variable: VARIABLE_START SYMBOL;
 variable_expression: VARIABLE_START VARIABLE_EXPRESSION_START expression VARIABLE_EXPRESSION_END;
 expression: value | value EXPRESSION_OPERATOR expression;
-list: LIST_START (SYMBOL | STRING);
+list: LIST_START (SYMBOL | string);
+constructor: symbol array;
 
 OPERATOR: '=' | '<>' | '>' | '<' | '<=' | '>=' | '!=';
 BLOCK_START: '{';
@@ -33,13 +34,14 @@ LIST_START: 'list';
 
 INT: NEGATION?[0-9]+;
 PCT: NEGATION?[0-9]+'%';
-REAL: NEGATION?[0-9]+'.'[0-9]+;
+REAL: NEGATION?[0-9]*'.'[0-9]+;
 DATE: [0-9]+'.'[0-9]+'.'[0-9]+;
-STRING : STRING_DELIM (~('"' | '\\') | '\\' ('"' | '\\'))* STRING_DELIM;
-SYMBOL: [A-Za-z0-9$][$|:@A-Za-z_0-9.%-]*;
+SSTRING : '\'' (~('"' | '\\') | '\\' ('"' | '\\'))* '\'';
+DSTRING : '"' (~('"' | '\\') | '\\' ('"' | '\\'))* '"';
+SYMBOL: [A-Za-z0-9$_][$|:@A-Za-z_0-9.%-]*;
 
 WHITESPACE: [ \t\n\r] + -> skip;
 LINE_COMMENT: '#'~[\r\n]* -> channel(HIDDEN);
 
-fragment STRING_DELIM: '"';
+fragment STRING_DELIM: ('"' | '\'');
 fragment NEGATION: '-';

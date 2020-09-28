@@ -64,6 +64,9 @@ public:
   virtual void enterList(ParadoxFileParser::ListContext * /*ctx*/) override { }
   virtual void exitList(ParadoxFileParser::ListContext * /*ctx*/) override { }
 
+  virtual void enterConstructor(ParadoxFileParser::ConstructorContext * /*ctx*/) override { }
+  virtual void exitConstructor(ParadoxFileParser::ConstructorContext * /*ctx*/) override { }
+
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
   virtual void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

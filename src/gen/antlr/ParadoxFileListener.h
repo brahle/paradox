@@ -62,6 +62,9 @@ public:
   virtual void enterList(ParadoxFileParser::ListContext *ctx) = 0;
   virtual void exitList(ParadoxFileParser::ListContext *ctx) = 0;
 
+  virtual void enterConstructor(ParadoxFileParser::ConstructorContext *ctx) = 0;
+  virtual void exitConstructor(ParadoxFileParser::ConstructorContext *ctx) = 0;
+
 
 };
 

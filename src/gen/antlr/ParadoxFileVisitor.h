@@ -51,6 +51,8 @@ public:
 
     virtual antlrcpp::Any visitList(ParadoxFileParser::ListContext *context) = 0;
 
+    virtual antlrcpp::Any visitConstructor(ParadoxFileParser::ConstructorContext *context) = 0;
+
 
 };
 

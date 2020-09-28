@@ -108,36 +108,51 @@ private:
             throw new std::runtime_error("Context given is null");
         }
         if (ctx->field()) {
-            auto field = ctx->field();
-            if (field->symbol()) {
-                auto symbol = field->symbol();
-                if (symbol->STRING()) {
-                    return symbol->STRING()->getSymbol()->getText();
-                }
-                if (symbol->INT()) {
-                    return symbol->INT()->getSymbol()->getText();
-                }
-                if (symbol->SYMBOL()) {
-                    return symbol->SYMBOL()->getSymbol()->getText();
-                }
-            }
-            if (field->variable()) {
-                auto variable = field->variable();
-                if (variable->SYMBOL()) {
-                    return variable->SYMBOL()->getSymbol()->getText();
-                }
-            }
-            if (field->LIST_START()) {
-                return field->LIST_START()->getSymbol()->getText();
-            }
-            if (field->string()) {
-                auto string = field->string();
-                if (string->STRING()) {
-                    return string->STRING()->getSymbol()->getText();
-                }
-            }
+            return _get_assignment_name(ctx->field());
         }
         throw new std::runtime_error("Unable to figure out the assignments name");
+    }
+
+    std::string _get_assignment_name(ParadoxFileParser::FieldContext *field) {
+        if (field->symbol()) {
+            return _get_assignment_name(field->symbol());
+        }
+        if (field->variable()) {
+            auto variable = field->variable();
+            if (variable->SYMBOL()) {
+                return variable->SYMBOL()->getSymbol()->getText();
+            }
+        }
+        if (field->LIST_START()) {
+            return field->LIST_START()->getSymbol()->getText();
+        }
+        if (field->string()) {
+            return _get_assignment_name(field->string());
+        }
+        throw new std::runtime_error("Unable to figure out the name from a field");
+    }
+
+    std::string _get_assignment_name(ParadoxFileParser::SymbolContext *symbol) {
+        if (symbol->string()) {
+            return _get_assignment_name(symbol->string());
+        }
+        if (symbol->INT()) {
+            return symbol->INT()->getSymbol()->getText();
+        }
+        if (symbol->SYMBOL()) {
+            return symbol->SYMBOL()->getSymbol()->getText();
+        }
+        throw new std::runtime_error("Unable to figure out the name from a symbol");
+    }
+
+    std::string _get_assignment_name(ParadoxFileParser::StringContext *string) {
+        if (string->DSTRING()) {
+            return string->DSTRING()->getSymbol()->getText();
+        }
+        if (string->SSTRING()) {
+            return string->SSTRING()->getSymbol()->getText();
+        }
+        throw new std::runtime_error("Unable to figure out the name from a string");
     }
 };
 
