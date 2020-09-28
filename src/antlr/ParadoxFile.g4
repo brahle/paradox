@@ -3,9 +3,10 @@ grammar ParadoxFile;
 config: (assignment)*;
 
 assignment: field OPERATOR value;
-field: string | symbol | variable;
+field: string | symbol | variable | LIST_START;
 
-value: integer | percent | real | date | string | symbol | map | array | variable | variable_expression | list;
+value: integer | percent | real | date | string | symbol | variable | variable_expression | map | array | list;
+simpleValue: integer | percent | real | date | string | symbol | variable | variable_expression;
 
 symbol: STRING | INT | SYMBOL;
 string: STRING;
@@ -14,7 +15,7 @@ real: REAL;
 date: DATE;
 percent: PCT;
 map: BLOCK_START (assignment)* BLOCK_END;
-array: BLOCK_START value+ BLOCK_END;
+array: BLOCK_START (simpleValue)+ BLOCK_END;
 variable: VARIABLE_START SYMBOL;
 variable_expression: VARIABLE_START VARIABLE_EXPRESSION_START expression VARIABLE_EXPRESSION_END;
 expression: value | value EXPRESSION_OPERATOR expression;

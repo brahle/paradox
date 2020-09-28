@@ -28,6 +28,9 @@ public:
   virtual void enterValue(ParadoxFileParser::ValueContext * /*ctx*/) override { }
   virtual void exitValue(ParadoxFileParser::ValueContext * /*ctx*/) override { }
 
+  virtual void enterSimpleValue(ParadoxFileParser::SimpleValueContext * /*ctx*/) override { }
+  virtual void exitSimpleValue(ParadoxFileParser::SimpleValueContext * /*ctx*/) override { }
+
   virtual void enterSymbol(ParadoxFileParser::SymbolContext * /*ctx*/) override { }
   virtual void exitSymbol(ParadoxFileParser::SymbolContext * /*ctx*/) override { }
 

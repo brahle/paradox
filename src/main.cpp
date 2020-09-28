@@ -127,6 +127,9 @@ private:
                     return variable->SYMBOL()->getSymbol()->getText();
                 }
             }
+            if (field->LIST_START()) {
+                return field->LIST_START()->getSymbol()->getText();
+            }
         }
         throw new std::runtime_error("Unable to figure out the assignments name");
     }

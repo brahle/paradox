@@ -1,0 +1,34 @@
+list = {
+    a = yes
+}
+
+a = {
+    list = what
+}
+
+what = {
+    a = list b
+}
+
+what2 = {
+    a = list "b"
+}
+
+what_list = {
+    list = some_string
+    scope:activity = {
+        bla
+    }
+}
+
+a = {
+    b = {
+        list2 = c
+    }
+}
+
+activity_feast = {
+    every_in_list = {
+        list = potential_guests
+    }
+}
