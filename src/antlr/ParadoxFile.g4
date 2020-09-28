@@ -38,7 +38,7 @@ REAL: NEGATION?[0-9]*'.'[0-9]+;
 DATE: [0-9]+'.'[0-9]+'.'[0-9]+;
 SSTRING : '\'' (~('"' | '\\') | '\\' ('"' | '\\'))* '\'';
 DSTRING : '"' (~('"' | '\\') | '\\' ('"' | '\\'))* '"';
-SYMBOL: [A-Za-z0-9$_][$|:@A-Za-z_0-9.%-]*;
+SYMBOL: [A-Za-z0-9$_]['/$|:@A-Za-z_0-9.%-]*;
 
 WHITESPACE: [ \t\n\r] + -> skip;
 LINE_COMMENT: '#'~[\r\n]* -> channel(HIDDEN);
