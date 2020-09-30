@@ -74,8 +74,8 @@ public:
     AssignmentContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     FieldContext *field();
-    antlr4::tree::TerminalNode *OPERATOR();
     ValueContext *value();
+    antlr4::tree::TerminalNode *OPERATOR();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -136,6 +136,7 @@ public:
     virtual size_t getRuleIndex() const override;
     StringContext *string();
     antlr4::tree::TerminalNode *INT();
+    antlr4::tree::TerminalNode *REAL();
     antlr4::tree::TerminalNode *SYMBOL();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -246,9 +247,11 @@ public:
     ArrayContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *BLOCK_START();
-    antlr4::tree::TerminalNode *BLOCK_END();
     std::vector<ValueContext *> value();
     ValueContext* value(size_t i);
+    antlr4::tree::TerminalNode *BLOCK_END();
+    std::vector<AssignmentContext *> assignment();
+    AssignmentContext* assignment(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

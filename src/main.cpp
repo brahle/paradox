@@ -139,6 +139,9 @@ private:
         if (symbol->INT()) {
             return symbol->INT()->getSymbol()->getText();
         }
+        if (symbol->REAL()) {
+            return symbol->REAL()->getSymbol()->getText();
+        }
         if (symbol->SYMBOL()) {
             return symbol->SYMBOL()->getSymbol()->getText();
         }

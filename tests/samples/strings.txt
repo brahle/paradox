@@ -11,4 +11,5 @@ a = {
     k = t:e/s/t
     l'm = test
     n-o = test
+    Asbjörn = "Asbjörn"
 }
