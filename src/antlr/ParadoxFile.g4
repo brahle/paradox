@@ -14,8 +14,11 @@ real: REAL;
 date: DATE;
 percent: PCT;
 map: BLOCK_START (assignment)* BLOCK_END;
-array: BLOCK_START (assignment)* value (value | assignment)* BLOCK_END;
-variable: VARIABLE_START SYMBOL;
+array
+    : BLOCK_START value COMMA? ((value | assignment) COMMA?)* BLOCK_END
+    | BLOCK_START (assignment COMMA?)+ value COMMA? ((value | assignment) COMMA?)* BLOCK_END
+    ;
+variable: VARIABLE_START SYMBOL | VARIABLE_START INT;
 variable_expression: VARIABLE_START VARIABLE_EXPRESSION_START expression VARIABLE_EXPRESSION_END;
 expression
     : expression MULTIPLY_DIVIDE expression
@@ -51,6 +54,7 @@ CSTRING: '“' (~('"' | '\\') | '\\' ('"' | '\\'))* '”';
 SYMBOL: SYMBOL_START (| SYMBOL_END | SYMBOL_INNER+ SYMBOL_END);
 PLUS_MINUS: PLUS_MINUS_F;
 MULTIPLY_DIVIDE: MULTIPLY_DIVIDE_F;
+COMMA: ',';
 
 WHITESPACE: [ \t\n\r] + -> skip;
 LINE_COMMENT: '#'~[\r\n]* -> channel(HIDDEN);
@@ -59,6 +63,6 @@ fragment STRING_DELIM: ('"' | '\'');
 fragment PLUS_MINUS_F: [-+];
 fragment MULTIPLY_DIVIDE_F: [*/];
 
-fragment SYMBOL_START: [0-9\p{Cased}\p{Ideographic}·“”$_];
-fragment SYMBOL_INNER: [\p{Cased}\p{Ideographic}0-9'·“”&/$|:@_.%-];
-fragment SYMBOL_END: [\p{Cased}\p{Ideographic}0-9'·“”&/$:@_.%-];
+fragment SYMBOL_START: [0-9\p{Cased}\p{Ideographic}·“”’$_];
+fragment SYMBOL_INNER: [\p{Cased}\p{Ideographic}0-9'·“”’&/$|:@_.?^%-];
+fragment SYMBOL_END: [\p{Cased}\p{Ideographic}0-9'·“”’&/$:@_.%-];

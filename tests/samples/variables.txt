@@ -1,3 +1,6 @@
+set_temp_variable = { temp_score = armies^num }
+@1918 = 0
+
 @poor_levy_scale_addition_per_tier = 25
 @tribal_cost_tier_1 = @[tribal_cost_base]
 @tribal_cost_tier_2 = @[tribal_cost_tier_1 + tribal_cost_scale_addition_per_tier]

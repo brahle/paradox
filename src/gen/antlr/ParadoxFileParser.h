@@ -16,7 +16,7 @@ public:
     VARIABLE_EXPRESSION_END = 6, ABS_VALUE = 7, OPEN_PARENS = 8, CLOSE_PARENS = 9, 
     LIST_START = 10, INT = 11, PCT = 12, REAL = 13, DATE = 14, SSTRING = 15, 
     DSTRING = 16, CSTRING = 17, SYMBOL = 18, PLUS_MINUS = 19, MULTIPLY_DIVIDE = 20, 
-    WHITESPACE = 21, LINE_COMMENT = 22
+    COMMA = 21, WHITESPACE = 22, LINE_COMMENT = 23
   };
 
   enum {
@@ -252,6 +252,8 @@ public:
     std::vector<ValueContext *> value();
     ValueContext* value(size_t i);
     antlr4::tree::TerminalNode *BLOCK_END();
+    std::vector<antlr4::tree::TerminalNode *> COMMA();
+    antlr4::tree::TerminalNode* COMMA(size_t i);
     std::vector<AssignmentContext *> assignment();
     AssignmentContext* assignment(size_t i);
 
@@ -270,6 +272,7 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *VARIABLE_START();
     antlr4::tree::TerminalNode *SYMBOL();
+    antlr4::tree::TerminalNode *INT();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

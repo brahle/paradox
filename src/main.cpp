@@ -86,7 +86,7 @@ public:
         }
     }
 
-    virtual void exitAssignment(ParadoxFileParser::AssignmentContext *ctx) override {
+    virtual void exitAssignment(__attribute__((unused)) ParadoxFileParser::AssignmentContext *ctx) override {
         if (!quiet_) {
             indent_ = indent_.substr(0, indent_.length() - 2);
             std::cout << indent_ << "Exiting " << current_->name() << std::endl;
@@ -111,7 +111,7 @@ private:
         if (ctx->field()) {
             return _get_assignment_name(ctx->field());
         }
-        throw new std::runtime_error("Unable to figure out the assignments name");
+        throw std::runtime_error("Unable to figure out the assignments name");
     }
 
     std::string _get_assignment_name(ParadoxFileParser::FieldContext *field) {
@@ -119,10 +119,7 @@ private:
             return _get_assignment_name(field->symbol());
         }
         if (field->variable()) {
-            auto variable = field->variable();
-            if (variable->SYMBOL()) {
-                return variable->SYMBOL()->getSymbol()->getText();
-            }
+            return _get_assignment_name(field->variable());
         }
         if (field->LIST_START()) {
             return field->LIST_START()->getSymbol()->getText();
@@ -130,7 +127,7 @@ private:
         if (field->string()) {
             return _get_assignment_name(field->string());
         }
-        throw new std::runtime_error("Unable to figure out the name from a field");
+        throw std::runtime_error("Unable to figure out the name from a field");
     }
 
     std::string _get_assignment_name(ParadoxFileParser::SymbolContext *symbol) {
@@ -146,7 +143,7 @@ private:
         if (symbol->SYMBOL()) {
             return symbol->SYMBOL()->getSymbol()->getText();
         }
-        throw new std::runtime_error("Unable to figure out the name from a symbol");
+        throw std::runtime_error("Unable to figure out the name from a symbol");
     }
 
     std::string _get_assignment_name(ParadoxFileParser::StringContext *string) {
@@ -159,8 +156,38 @@ private:
         if (string->CSTRING()) {
             return string->CSTRING()->getSymbol()->getText();
         }
-        throw new std::runtime_error("Unable to figure out the name from a string");
+        throw std::runtime_error("Unable to figure out the name from a string");
     }
+
+    std::string _get_assignment_name(ParadoxFileParser::VariableContext *variable) {
+        if (variable->SYMBOL()) {
+            return variable->SYMBOL()->getSymbol()->getText();
+        }
+        if (variable->INT()) {
+            return variable->INT()->getSymbol()->getText();
+        }
+        throw std::runtime_error("Unable to figure out the name from a variable");
+    }
+};
+
+class ThrowingErrorListener: public antlr4::BaseErrorListener {
+public:
+    ThrowingErrorListener(const std::string& name): name_(name) {}
+
+	virtual void syntaxError(
+        __attribute__((unused)) antlr4::Recognizer *recognizer,
+        __attribute__((unused)) antlr4::Token * offendingSymbol,
+        size_t line,
+        size_t charPositionInLine,
+        __attribute__((unused)) const std::string &msg,
+        __attribute__((unused)) std::exception_ptr e
+    ) override {
+        std::stringstream final_msg;
+        final_msg << name_ << ": Syntax Error: line " << line << ", starting with character " << charPositionInLine;
+        throw std::runtime_error(final_msg.str());
+    }
+private:
+    std::string name_;
 };
 
 inline void process(const char *filename, bool debug) {
@@ -170,8 +197,10 @@ inline void process(const char *filename, bool debug) {
 
     antlr4::ANTLRInputStream input(stream);
     ParadoxFileLexer lexer(&input);
+    lexer.addErrorListener(new ThrowingErrorListener("Lexer"));
     antlr4::CommonTokenStream tokens(&lexer);
     ParadoxFileParser parser(&tokens);
+    parser.addErrorListener(new ThrowingErrorListener("Parser"));
 
     antlr4::tree::ParseTree *tree = parser.config();
     if (debug) {
@@ -198,7 +227,13 @@ int main(int argc, const char* argv[]) {
             debug = true;
             continue;
         }
-        process(argv[i], debug);
+        try {
+            process(argv[i], debug);
+        } catch (std::range_error error) {
+            std::cout << "************************* Error parsing '" << argv[i] << "': " << error.what() << std::endl;
+        } catch (std::runtime_error error) {
+            std:: cout << "************************* Error parsing '" << argv[i] << "': " << error.what() << std::endl;
+        }
     }
 
     return 0;

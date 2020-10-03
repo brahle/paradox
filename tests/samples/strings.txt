@@ -12,4 +12,5 @@ a = {
     l'm = test
     n-o = test
     Asbjörn = "Asbjörn"
+    a’b = "c’d"
 }
