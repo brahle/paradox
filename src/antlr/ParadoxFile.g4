@@ -8,7 +8,7 @@ field: string | symbol | variable | LIST_START;
 value: integer | percent | real | date | string | symbol | variable | variable_expression | map | array | list | constructor;
 
 symbol: string | INT | REAL | SYMBOL;
-string: DSTRING | SSTRING;
+string: DSTRING | SSTRING | CSTRING;
 integer: INT;
 real: REAL;
 date: DATE;
@@ -17,7 +17,14 @@ map: BLOCK_START (assignment)* BLOCK_END;
 array: BLOCK_START (assignment)* value (value | assignment)* BLOCK_END;
 variable: VARIABLE_START SYMBOL;
 variable_expression: VARIABLE_START VARIABLE_EXPRESSION_START expression VARIABLE_EXPRESSION_END;
-expression: value | value EXPRESSION_OPERATOR expression;
+expression
+    : expression MULTIPLY_DIVIDE expression
+    | expression PLUS_MINUS expression
+    | ABS_VALUE expression ABS_VALUE
+    | OPEN_PARENS expression CLOSE_PARENS
+    | PLUS_MINUS value
+    | value
+    ;
 list: LIST_START (SYMBOL | string);
 constructor: symbol array;
 
@@ -25,23 +32,33 @@ OPERATOR: '=' | '<>' | '>' | '<' | '<=' | '>=' | '!=' | '==';
 BLOCK_START: '{';
 BLOCK_END: '}';
 
-VARIABLE_START: '@';
+VARIABLE_START: '@' '\\'?;
 VARIABLE_EXPRESSION_START: '[';
 VARIABLE_EXPRESSION_END: ']';
-EXPRESSION_OPERATOR: '+' | '-' | '*' | '/';
+ABS_VALUE: '|';
+OPEN_PARENS: '(';
+CLOSE_PARENS: ')';
 
 LIST_START: 'list';
 
-INT: NEGATION?[0-9]+;
-PCT: NEGATION?[0-9]+'%';
-REAL: NEGATION?[0-9]*'.'[0-9]+;
+INT: PLUS_MINUS?[0-9]+;
+PCT: PLUS_MINUS?[0-9]+'%';
+REAL: PLUS_MINUS?[0-9]*'.'[0-9]+;
 DATE: [0-9]+'.'[0-9]+'.'[0-9]+;
 SSTRING : '\'' (~('"' | '\\') | '\\' ('"' | '\\'))* '\'';
 DSTRING : '"' (~('"' | '\\') | '\\' ('"' | '\\'))* '"';
-SYMBOL: [a-zA-Z0-9\u0080-\u7fff$_][a-zA-Z0-9\u0080-\u7fff'&/$|:@_.%-]*;
+CSTRING: '“' (~('"' | '\\') | '\\' ('"' | '\\'))* '”';
+SYMBOL: SYMBOL_START (| SYMBOL_END | SYMBOL_INNER+ SYMBOL_END);
+PLUS_MINUS: PLUS_MINUS_F;
+MULTIPLY_DIVIDE: MULTIPLY_DIVIDE_F;
 
 WHITESPACE: [ \t\n\r] + -> skip;
 LINE_COMMENT: '#'~[\r\n]* -> channel(HIDDEN);
 
 fragment STRING_DELIM: ('"' | '\'');
-fragment NEGATION: '-';
+fragment PLUS_MINUS_F: [-+];
+fragment MULTIPLY_DIVIDE_F: [*/];
+
+fragment SYMBOL_START: [0-9\p{Cased}\p{Ideographic}·“”$_];
+fragment SYMBOL_INNER: [\p{Cased}\p{Ideographic}0-9'·“”&/$|:@_.%-];
+fragment SYMBOL_END: [\p{Cased}\p{Ideographic}0-9'·“”&/$:@_.%-];

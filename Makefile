@@ -23,6 +23,8 @@ stations:
 
 full: antlr antlr.o main
 
+all: full
+
 clean:
 	rm bin/* lib/*
 

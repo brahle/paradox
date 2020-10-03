@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -155,14 +156,17 @@ private:
         if (string->SSTRING()) {
             return string->SSTRING()->getSymbol()->getText();
         }
+        if (string->CSTRING()) {
+            return string->CSTRING()->getSymbol()->getText();
+        }
         throw new std::runtime_error("Unable to figure out the name from a string");
     }
 };
 
-int main(int argc, const char* argv[]) {
-    std::cout << "Opening '" << argv[1] << "'" << std::endl;
+inline void process(const char *filename, bool debug) {
+    std::cout << "Opening '" << filename << "'" << std::endl;
     std::ifstream stream;
-    stream.open(argv[1]);
+    stream.open(filename);
 
     antlr4::ANTLRInputStream input(stream);
     ParadoxFileLexer lexer(&input);
@@ -170,15 +174,32 @@ int main(int argc, const char* argv[]) {
     ParadoxFileParser parser(&tokens);
 
     antlr4::tree::ParseTree *tree = parser.config();
-    // std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+    if (debug) {
+        std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+    }
 
     AssignmentListener listener;
     antlr4::tree::ParseTreeWalker::DEFAULT.walk(&listener, tree);
-    // std::cout << std::endl;
+    if (debug) {
+        std::cout << std::endl;
+    }
 
-    // for (auto x : listener.assignments().children()) {
-    //     std::cout << x.name() << std::endl;
-    // }
+    if (debug) {
+        for (auto x : listener.assignments().children()) {
+            std::cout << x.name() << std::endl;
+        }
+    }
+}
+
+int main(int argc, const char* argv[]) {
+    bool debug = false;
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--debug") == 0 || strcmp(argv[i], "-d") == 0) {
+            debug = true;
+            continue;
+        }
+        process(argv[i], debug);
+    }
 
     return 0;
 }

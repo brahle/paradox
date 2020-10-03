@@ -2,6 +2,11 @@
 @tribal_cost_tier_1 = @[tribal_cost_base]
 @tribal_cost_tier_2 = @[tribal_cost_tier_1 + tribal_cost_scale_addition_per_tier]
 cheap_building_tier_1_cost = @[cheap_cost_tier_1]
+@what = @\[foo]
+@what = @\[( 2 + ( $MAX$ + $DIE_MAX$ - |$MAX$ - $SCORE$ - $DIE_MAX$| ) - ( $MIN$ + $DIE_MIN$ + |$MIN$ - $SCORE$ - $DIE_MIN$| ) ) / ( 2*( $DIE_MAX$ -  $DIE_MIN$ + 1 ) )]
+# @what = @\[( 2 + ( $MAX$ + $DIE_MAX$ - |$MAX$ - $SCORE$ - $DIE_MAX$| ) - ( $DIE_MIN$ + |-$SCORE$ - $DIE_MIN$| ) ) / ( 2*( $DIE_MAX$ -  $DIE_MIN$ + 1 ) )]
+# @what = @\[|-$SCORE$ - $DIE_MIN$|]
+@what = @\[-abcd]
 
 fill_building_slot_chance = {
 	if = {

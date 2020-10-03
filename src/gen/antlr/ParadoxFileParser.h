@@ -13,9 +13,10 @@ class  ParadoxFileParser : public antlr4::Parser {
 public:
   enum {
     OPERATOR = 1, BLOCK_START = 2, BLOCK_END = 3, VARIABLE_START = 4, VARIABLE_EXPRESSION_START = 5, 
-    VARIABLE_EXPRESSION_END = 6, EXPRESSION_OPERATOR = 7, LIST_START = 8, 
-    INT = 9, PCT = 10, REAL = 11, DATE = 12, SSTRING = 13, DSTRING = 14, 
-    SYMBOL = 15, WHITESPACE = 16, LINE_COMMENT = 17
+    VARIABLE_EXPRESSION_END = 6, ABS_VALUE = 7, OPEN_PARENS = 8, CLOSE_PARENS = 9, 
+    LIST_START = 10, INT = 11, PCT = 12, REAL = 13, DATE = 14, SSTRING = 15, 
+    DSTRING = 16, CSTRING = 17, SYMBOL = 18, PLUS_MINUS = 19, MULTIPLY_DIVIDE = 20, 
+    WHITESPACE = 21, LINE_COMMENT = 22
   };
 
   enum {
@@ -154,6 +155,7 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *DSTRING();
     antlr4::tree::TerminalNode *SSTRING();
+    antlr4::tree::TerminalNode *CSTRING();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -300,9 +302,15 @@ public:
   public:
     ExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    std::vector<antlr4::tree::TerminalNode *> ABS_VALUE();
+    antlr4::tree::TerminalNode* ABS_VALUE(size_t i);
+    std::vector<ExpressionContext *> expression();
+    ExpressionContext* expression(size_t i);
+    antlr4::tree::TerminalNode *OPEN_PARENS();
+    antlr4::tree::TerminalNode *CLOSE_PARENS();
+    antlr4::tree::TerminalNode *PLUS_MINUS();
     ValueContext *value();
-    antlr4::tree::TerminalNode *EXPRESSION_OPERATOR();
-    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *MULTIPLY_DIVIDE();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -312,7 +320,7 @@ public:
   };
 
   ExpressionContext* expression();
-
+  ExpressionContext* expression(int precedence);
   class  ListContext : public antlr4::ParserRuleContext {
   public:
     ListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -346,6 +354,9 @@ public:
 
   ConstructorContext* constructor();
 
+
+  virtual bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) override;
+  bool expressionSempred(ExpressionContext *_localctx, size_t predicateIndex);
 
 private:
   static std::vector<antlr4::dfa::DFA> _decisionToDFA;
